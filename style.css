@@ -10,3 +10,42 @@
   50% { background-position: 100% 50%; }
   100% { background-position: 0% 50%; }
 }
+
+
+/* Backgrounds for weather conditions */
+body.sunny {
+  background: linear-gradient(to bottom right, #facc15, #f97316);
+}
+body.cloudy {
+  background: linear-gradient(to bottom right, #9ca3af, #6b7280);
+}
+body.rainy {
+  background: linear-gradient(to bottom right, #3b82f6, #1e3a8a);
+}
+
+/* Hover effects */
+#forecast div,
+#weatherInfo {
+  transition: all 0.3s ease;
+}
+#forecast div:hover,
+#weatherInfo:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+#cityDropdown:hover {
+  transform: scale(1.05);
+  background: rgba(255, 255, 255, 0.8);
+}
+
+
+/* Suggestions dropdown */
+#suggestions li {
+  padding: 8px;
+  cursor: pointer;
+}
+#suggestions li:hover {
+  background: #e0e7ff; 
+}
