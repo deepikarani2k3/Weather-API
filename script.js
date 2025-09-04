@@ -29,3 +29,48 @@ async function fetchWeather(city) {
     showError(err.message);
   }
 }
+
+// Display weather
+function displayWeather(data) {
+  errorDiv.classList.add("hidden");
+  weatherInfo.classList.remove("hidden");
+
+  document.getElementById("cityName").innerText = `${data.name}, ${data.sys.country}`;
+  document.getElementById("date").innerText = new Date().toDateString();
+  currentTempC = data.main.temp;
+  document.getElementById("temp").innerText = `${Math.round(currentTempC)} °C`;
+  document.getElementById("desc").innerText = data.weather[0].description;
+  document.getElementById("details").innerText =
+    `Humidity: ${data.main.humidity}% | Wind: ${data.wind.speed} m/s`;
+
+  const icon = data.weather[0].icon;
+  document.getElementById("weatherIcon").src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+    // Background change
+  const condition = data.weather[0].main.toLowerCase();
+  document.body.classList.remove("rainy", "cloudy", "sunny");
+  if (condition.includes("rain")) document.body.classList.add("rainy");
+  else if (condition.includes("cloud")) document.body.classList.add("cloudy");
+  else document.body.classList.add("sunny");
+
+  // Extreme weather alert
+  if (currentTempC > 40) {
+    showError("🔥 Extreme heat alert! Stay hydrated.");
+  } else if (currentTempC < 5) {
+    showError("❄️ Cold weather alert! Dress warmly.");
+  }
+
+  // Unit toggle
+  unitToggle.onclick = () => {
+    if (isCelsius) {
+      let f = (currentTempC * 9) / 5 + 32;
+      document.getElementById("temp").innerText = `${Math.round(f)} °F`;
+      renderForecast("imperial");
+    } else {
+      document.getElementById("temp").innerText = `${Math.round(currentTempC)} °C`;
+      renderForecast("metric");
+    }
+    isCelsius = !isCelsius;
+  };
+}
+
+
