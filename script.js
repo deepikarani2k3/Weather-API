@@ -132,7 +132,7 @@ function saveRecentCity(city) {
     city = city.charAt(0).toUpperCase() + city.slice(1).toLowerCase();
     let cities = JSON.parse(localStorage.getItem("recentCities")) || [];
     if (!cities.includes(city)) {
-        cities.unshift(city); 
+        cities.unshift(city);
         localStorage.setItem("recentCities", JSON.stringify(cities));
     }
     updateDropdown();
@@ -149,3 +149,37 @@ function updateDropdown() {
         });
     }
 }
+
+// Event Listeners
+searchBtn.onclick = () => {
+    const city = cityInput.value.trim();
+    if (city === "") return showError("Please enter a city name");
+    fetchWeather(city);
+};
+
+locBtn.onclick = () => {
+    navigator.geolocation.getCurrentPosition(
+        pos => fetchWeatherByCoords(pos.coords.latitude, pos.coords.longitude),
+        () => showError("Location access denied")
+    );
+};
+
+async function fetchWeatherByCoords(lat, lon) {
+    try {
+        const res = await fetch(
+            `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
+        );
+        const data = await res.json();
+        displayWeather(data);
+        fetchForecast(lat, lon);
+        saveRecentCity(data.name);
+    } catch {
+        showError("Unable to fetch location weather");
+    }
+}
+
+cityDropdown.onchange = () => {
+    if (cityDropdown.value !== "") fetchWeather(cityDropdown.value);
+};
+
+
