@@ -182,4 +182,42 @@ cityDropdown.onchange = () => {
     if (cityDropdown.value !== "") fetchWeather(cityDropdown.value);
 };
 
+// Suggestions (autocomplete)
+cityInput.addEventListener("input", async () => {
+  const query = cityInput.value.trim();
+  if (query.length < 2) {
+    suggestionsBox.classList.add("hidden");
+    return;
+  }
 
+  try {
+    const res = await fetch(
+      `https://api.openweathermap.org/geo/1.0/direct?q=${query}&limit=5&appid=${apiKey}`
+    );
+    const cities = await res.json();
+
+    if (cities.length === 0) {
+      suggestionsBox.classList.add("hidden");
+      return;
+    }
+
+    suggestionsBox.innerHTML = "";
+    cities.forEach(c => {
+      const li = document.createElement("li");
+      li.innerText = `${c.name}, ${c.country}`;
+      li.onclick = () => {
+        cityInput.value = `${c.name}`;
+        suggestionsBox.classList.add("hidden");
+        fetchWeather(c.name);
+      };
+      suggestionsBox.appendChild(li);
+    });
+
+    suggestionsBox.classList.remove("hidden");
+  } catch (err) {
+    console.error("Error fetching city suggestions:", err);
+  }
+});
+
+// Load recent cities on startup
+updateDropdown();
