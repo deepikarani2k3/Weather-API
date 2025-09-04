@@ -73,4 +73,47 @@ function displayWeather(data) {
   };
 }
 
+// Fetch forecast
+async function fetchForecast(lat, lon) {
+  try {
+    const res = await fetch(
+      `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`
+    );
+    const data = await res.json();
+    forecastData = data.list;
+    renderForecast("metric");
+  } catch (err) {
+    showError("Unable to fetch forecast");
+  }
+}
 
+// Render forecast (metric/imperial toggle supported)
+function renderForecast(unit = "metric") {
+  forecastDiv.innerHTML = "";
+  forecastDiv.classList.remove("hidden");
+
+  const daily = forecastData.filter(item => item.dt_txt.includes("12:00:00"));
+
+  daily.forEach(day => {
+    const card = document.createElement("div");
+    card.className = "bg-white/30 backdrop-blur-lg rounded-2xl shadow-lg p-4 text-center";
+
+    let tempC = day.main.temp;
+    let temp = unit === "metric"
+      ? `${Math.round(tempC)} °C`
+      : `${Math.round((tempC * 9) / 5 + 32)} °F`;
+
+    const wind = `${day.wind.speed} m/s`;
+    const humidity = `${day.main.humidity}%`;
+    const icon = `https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`;
+
+    card.innerHTML = `
+      <h3 class="text-white font-semibold">${new Date(day.dt_txt).toDateString()}</h3>
+      <img src="${icon}" class="mx-auto w-12 h-12" />
+      <p class="text-white text-lg">${temp}</p>
+      <p class="text-white text-sm">💨 ${wind} | 💧 ${humidity}</p>
+    `;
+
+    forecastDiv.appendChild(card);
+  });
+}
