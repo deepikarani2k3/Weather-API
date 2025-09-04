@@ -39,8 +39,53 @@
                 class="absolute top-full left-0 right-0 bg-white rounded-xl shadow-lg mt-1 hidden max-h-48 overflow-y-auto z-50">
             </ul>
         </div>
+        <!-- Buttons -->
+        <div class="flex w-full gap-2 justify-center">
+            <button id="searchBtn"
+                class="px-4 py-2 bg-indigo-600 text-white rounded-xl shadow hover:bg-indigo-700 flex items-center justify-center">
+                <!-- Heroicon Magnifying Glass -->
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                    stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M21 21l-4.35-4.35m0 0A7.5 7.5 0 1110.5 3a7.5 7.5 0 016.15 13.65z" />
+                </svg>
+            </button>
 
-        <script src="script.js"></script>
+            <button id="locBtn"
+                class="px-4 py-2 bg-green-600 text-white rounded-xl shadow hover:bg-green-700">📍</button>
+        </div>
+
+        <!-- Recent Searches -->
+        <div id="recentCities" class="hidden flex flex-col items-center justify-center gap-2 w-full">
+            <label class="text-white font-medium">Recent Cities:</label>
+            <select id="cityDropdown" class="p-3 rounded-xl text-center w-fit mx-auto">
+                <option value="">-- Select City --</option>
+            </select>
+        </div>
+    </section>
+
+    <!-- Current Weather -->
+    <section id="weatherInfo"
+        class="hidden mt-6 bg-white/30 backdrop-blur-lg rounded-2xl shadow-lg p-6 text-center mx-auto w-fit">
+
+        <h2 id="cityName" class="text-2xl font-bold text-white"></h2>
+        <p id="date" class="text-white/80 mb-2"></p>
+        <img id="weatherIcon" class="mx-auto w-20 h-20" />
+        <p id="temp" class="text-4xl font-semibold text-white"></p>
+        <p id="desc" class="capitalize text-lg text-white"></p>
+        <p id="details" class="text-white mt-2"></p>
+        <button id="unitToggle" class="mt-4 px-4 py-2 bg-yellow-500 text-black rounded-xl hover:bg-yellow-600">Toggle
+            °C/°F</button>
+    </section>
+
+    <!-- Forecast Section -->
+    <section id="forecast" class="hidden mt-6 w-full max-w-4xl flex flex-wrap justify-center gap-4 text-center mx-auto">
+    </section>
+
+    <!-- Error -->
+    <div id="error" class="hidden mt-4 p-4 bg-red-600 text-white rounded-xl"></div>
+
+    <script src="script.js"></script>
 </body>
 
 </html>
