@@ -69,7 +69,10 @@ This project uses **Git & GitHub** for version control.
   - `Add README documentation`
 
   ---  
-
+  
+## Screenshot
+![App Screenshot](./assets/scn.PNG)
+---
 
   ## GitHub Repository
 [Click here to view the repository](https://github.com/deepikarani2k3/Weather-API)
