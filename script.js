@@ -106,13 +106,16 @@ function renderForecast(unit = "metric") {
         const wind = `${day.wind.speed} m/s`;
         const humidity = `${day.main.humidity}%`;
         const icon = `https://openweathermap.org/img/wn/${day.weather[0].icon}@2x.png`;
+        const date = new Date(day.dt_txt);
+        const options = { day: "numeric", month: "short" };
+        const formattedDate = date.toLocaleDateString("en-GB", options);
 
         card.innerHTML = `
-      <h3 class="text-white font-semibold">${new Date(day.dt_txt).toDateString()}</h3>
-      <img src="${icon}" class="mx-auto w-12 h-12" />
-      <p class="text-white text-lg">${temp}</p>
-      <p class="text-white text-sm">💨 ${wind} | 💧 ${humidity}</p>
-    `;
+          <h3 class="text-white font-semibold">${formattedDate}</h3>
+          <img src="${icon}" class="mx-auto w-12 h-12" />
+          <p class="text-white text-lg">${temp}</p>
+          <p class="text-white text-sm">💨 ${wind} | 💧 ${humidity}</p>
+        `;
 
         forecastDiv.appendChild(card);
     });
